@@ -1,13 +1,16 @@
 import socket
 
+# Question 1 (Client Side File)
+# Write a Python socket program to implement a UDP communication module, where a client and server exchange messages using port number 13333.
+
+
 def run_client():
     server_ip = "127.0.0.1"
     server_port = 13333
 
     # Fill in your details here
-    name = "MoutushiKarmakar"
-    reg_num = "2419204959"
-    payload = f"{name}_{reg_num}"
+    msg = "Hi There"
+    payload = f"{msg}"
 
     # Create UDP socket
     client_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
