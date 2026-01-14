@@ -1,31 +1,32 @@
 import socket
 
-def send_test_packet():
-    target_ip = "127.0.0.1"
-    target_port = 13333
-    my_message = "Hey there, testing the UDP port 13333."
+def run_client():
+    server_ip = "127.0.0.1"
+    server_port = 13333
 
-    # Create the socket object
-    client_conn = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # Fill in your details here
+    name = "MoutushiKarmakar"
+    reg_num = "2419204959"
+    payload = f"{name}_{reg_num}"
 
-    # Set a 3-second wait limit so the program doesn't hang forever
-    client_conn.settimeout(3)
+    # Create UDP socket
+    client_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_sock.settimeout(5) # Wait 5 seconds before giving up
 
     try:
-        print(f"Sending data to {target_ip}...")
-        client_conn.sendto(my_message.encode('utf-8'), (target_ip, target_port))
+        print(f"Sending: {payload}")
+        client_sock.sendto(payload.encode('utf-8'), (server_ip, server_port))
 
-        # Look for the response
-        response, server_info = client_conn.recvfrom(4096)
-        print(f"Server replied: {response.decode('utf-8')}")
+        # Receive the echoed response
+        echoed_data, server_addr = client_sock.recvfrom(1024)
+        print(f"Echo from server: {echoed_data.decode('utf-8')}")
 
     except socket.timeout:
-        print("No response... the server might be down.")
+        print("The server didn't respond in time.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"An error occurred: {e}")
     finally:
-        client_conn.close()
-        print("Connection closed.")
+        client_sock.close()
 
 if __name__ == "__main__":
-    send_test_packet()
+    run_client()
